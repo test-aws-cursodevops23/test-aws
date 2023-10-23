@@ -1,0 +1,82 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: VPC final PilarTecno
+
+Parameters:
+  env:
+    Type: "String"
+    Description: Environment Name
+    AllowedValues:
+      - dev
+      - qa
+      - prod
+  CloudFormationBucket:
+    Type: "String"
+    Description: CloudFormation stacks Bucket Name
+    Default: "stacks"
+
+##VPC con sus subnets
+Resources:
+  myVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsSupport: 'true'
+      EnableDnsHostnames: 'true'
+      Tags:
+      - Key: Name
+        Value: vpc-pilartecno
+
+  PublicSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref myVPC
+      CidrBlock: 10.0.10.0/24
+      AvailabilityZone: "us-east-1a"
+      Tags:
+      - Key: Name
+        Value: public-pilartecno
+       
+  PrivateSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref myVPC
+      CidrBlock: 10.0.20.0/24
+      AvailabilityZone: "us-east-1a"
+      Tags:
+      - Key: Name
+        Value: private-pilartecno
+
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} Public Routes
+
+##Tablas de ruteo
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref myVPC
+      Tags:
+        - Key: Name
+          Value: routetablepublic
+  PublicSubnetRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnet
+      RouteTableId: !Ref PublicRouteTable
+
+  PrivateRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref myVPC
+      Tags:
+        - Key: Name
+          Value: routetableprivate 
+  PrivateSubnetRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PrivateSubnet
+      RouteTableId: !Ref PrivateRouteTable
