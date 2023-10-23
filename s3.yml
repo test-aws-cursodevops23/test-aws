@@ -4,7 +4,7 @@ Description: S3 pilartecno
 
 Resources:  
   S3Bucket:
-    Type: AWS::S3::Bucket
+    Type: 'AWS::S3::Bucket'
     DeletionPolicy: Retain
     Properties:
       BucketName: bucket-pilartecno
