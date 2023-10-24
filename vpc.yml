@@ -72,3 +72,16 @@ Resources:
     Properties:
       SubnetId: !Ref PrivateSubnet
       RouteTableId: !Ref PrivateRouteTable
+
+Outputs:
+  PrivateSubnet:
+    Value: !GetAtt PrivateSubnet.SubnetId
+    Export:
+        Name:
+          'Fn::Sub': '${AWS::StackName}-Subnetprivate'
+  
+  myVPC:
+    Value: !GetAtt myVPC.VpcId
+    Export:
+        Name:
+          'Fn::Sub': '${AWS::StackName}-vpcID'

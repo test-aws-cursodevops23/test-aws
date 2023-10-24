@@ -1,0 +1,37 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: EC2 pilartecno
+
+Resources:
+  
+  EC2SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow http to client host
+      VpcId: !ImportValue vpcID
+        #- Fn::ImportValue: 
+          #'Fn::Sub': '${NetworkStackNameParameter}-vpcID'
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+      SecurityGroupEgress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+
+
+  Ec2Instance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-0fc5d935ebf8bc3bc
+      NetworkInterfaces:
+        - AssociatePublicIpAddress: "true"
+          DeviceIndex: "0"
+          GroupSet: !Ref EC2SecurityGroup
+          DeleteOnTermination: 'true'
+          SubnetId: !ImportValue Subnetprivate
+            #- Fn::ImportValue: 
+              #'Fn::Sub': '${NetworkStackNameParameter}-subnet_public'

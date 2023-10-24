@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: S3 pilartecno
+Description: S3 finalpilartecno
 
 
 Resources:  
@@ -7,4 +7,4 @@ Resources:
     Type: 'AWS::S3::Bucket'
     DeletionPolicy: Retain
     Properties:
-      BucketName: bucket-pilartecno
+      BucketName: bucket-finalpilartecno
