@@ -3,13 +3,11 @@ Description: EC2 pilartecno
 
 Resources:
   
-  EC2SecurityGroup:
+  ec2securitygroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: Allow http to client host
-      VpcId: !ImportValue vpcID
-        #- Fn::ImportValue: 
-          #'Fn::Sub': '${NetworkStackNameParameter}-vpcID'
+      VpcId: !ImportValue vpcPILARTECNO-vpcID
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: 80
@@ -27,11 +25,13 @@ Resources:
     Properties:
       InstanceType: t2.micro
       ImageId: ami-0fc5d935ebf8bc3bc
+      Tags:
+        - Key: Name
+          Value: ec2-pilartecno
       NetworkInterfaces:
         - AssociatePublicIpAddress: "true"
           DeviceIndex: "0"
-          GroupSet: !Ref EC2SecurityGroup
+          GroupSet: 
+            - Ref: "ec2securitygroup"
           DeleteOnTermination: 'true'
-          SubnetId: !ImportValue Subnetprivate
-            #- Fn::ImportValue: 
-              #'Fn::Sub': '${NetworkStackNameParameter}-subnet_public'
+          SubnetId: !ImportValue vpcPILARTECNO-Subnetprivate
