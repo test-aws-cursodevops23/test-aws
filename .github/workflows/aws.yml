@@ -23,7 +23,11 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Deploy S3
+      #- name: Deploy S3
+        #run: |
+          #aws cloudformation deploy --template-file s3.yml --region us-east-1 --stack-name s3PILAR
+          #aws s3 cp s3.yml s3://bucket-finalpilartecno
+      
+      - name: Deploy VPC
         run: |
-          aws cloudformation deploy --template-file s3.yml --region us-east-1 --stack-name s3PILAR
-          aws s3 cp s3.yml s3://bucket-finalpilartecno
+          aws cloudformation deploy --template-file vpc.yml --region us-east-1 --stack-name vpcPILARTECNO --parameter-overrides env=$GITHUB_REF_NAME
