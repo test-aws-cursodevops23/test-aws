@@ -28,6 +28,10 @@ jobs:
           #aws cloudformation deploy --template-file s3.yml --region us-east-1 --stack-name s3PILAR
           #aws s3 cp s3.yml s3://bucket-finalpilartecno
       
-      - name: Deploy VPC
+      #- name: Deploy VPC
+        #run: |
+          #aws cloudformation deploy --template-file vpc.yml --region us-east-1 --stack-name vpcPILARTECNO --parameter-overrides env=$GITHUB_REF_NAME
+      
+      - name: Deploy EC2
         run: |
-          aws cloudformation deploy --template-file vpc.yml --region us-east-1 --stack-name vpcPILARTECNO --parameter-overrides env=$GITHUB_REF_NAME
+          aws cloudformation deploy --template-file ec2.yml --region us-east-1 --stack-name ec2PILARTECNO
